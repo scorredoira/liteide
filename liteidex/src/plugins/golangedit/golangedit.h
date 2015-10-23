@@ -75,6 +75,7 @@ public slots:
     void editorViewGodoc();
     void editorFindInfo();
     void editorJumpToDecl();
+    void editorRunTest();
     void editorFindUsages();
     void editorFindUsagesGlobal();
     void editorRenameSymbol();
@@ -116,6 +117,7 @@ protected:
     LiteApi::Link m_lastLink;
     QAction *m_findInfoAct;
     QAction *m_jumpDeclAct;
+    QAction *m_runTestAct;
     QAction *m_findUseAct;
     QAction *m_findUseGlobalAct;
     QAction *m_renameSymbolAct;

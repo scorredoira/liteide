@@ -1,7 +1,11 @@
-<!-- Changes -->
+﻿<!-- Changes -->
 
 ## LiteIDE X Version
   LiteIDE is a simple, open source, cross-platform Go IDE.
+
+### 2015.10.23 Ver X27.2.2
+* LiteIDE
+	* add option to run test under cursor (CTRL+SHIFT+T)
 
 ### 2015.4.22 Ver X27.2.1
 * LiteIDE
