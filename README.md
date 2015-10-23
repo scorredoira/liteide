@@ -1,3 +1,8 @@
+﻿Until visualfc shows up again or someone takes charge of the project I will add here the few things that I find missing.s
+
+* Changes <https://github.com/scorredoira/liteide/blob/master/liteidex/deploy/welcome/en/changes.md>
+
+
 <!-- Welcome to LiteIDE X -->
 
 LiteIDE X
