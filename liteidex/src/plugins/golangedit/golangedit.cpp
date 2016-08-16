@@ -79,6 +79,9 @@ GolangEdit::GolangEdit(LiteApi::IApplication *app, QObject *parent) :
     m_jumpDeclAct = new QAction(tr("Jump to Declaration"),this);
     actionContext->regAction(m_jumpDeclAct,"JumpToDeclaration","CTRL+SHIFT+J;F2");
 
+    m_runTestAct = new QAction(tr("Run Test Under Cursor"),this);
+    actionContext->regAction(m_runTestAct,"RunTest","CTRL+SHIFT+T");
+
     m_findUseAct = new QAction(tr("Find Usages"),this);
     actionContext->regAction(m_findUseAct,"FindUsages","CTRL+SHIFT+U");
 
@@ -120,6 +123,7 @@ GolangEdit::GolangEdit(LiteApi::IApplication *app, QObject *parent) :
     connect(m_viewGodocAct,SIGNAL(triggered()),this,SLOT(editorViewGodoc()));
     connect(m_findInfoAct,SIGNAL(triggered()),this,SLOT(editorFindInfo()));
     connect(m_jumpDeclAct,SIGNAL(triggered()),this,SLOT(editorJumpToDecl()));
+    connect(m_runTestAct,SIGNAL(triggered()),this,SLOT(editorRunTest()));
     connect(m_findUseAct,SIGNAL(triggered()),this,SLOT(editorFindUsages()));
     connect(m_renameSymbolAct,SIGNAL(triggered()),this,SLOT(editorRenameSymbol()));
     connect(m_findUseGlobalAct,SIGNAL(triggered()),this,SLOT(editorFindUsagesGlobal()));
@@ -263,6 +267,7 @@ void GolangEdit::editorCreated(LiteApi::IEditor *editor)
         menu->addSeparator();
         menu->addAction(m_findInfoAct);
         menu->addAction(m_jumpDeclAct);
+        menu->addAction(m_runTestAct);
         menu->addAction(m_findUseAct);
         menu->addAction(m_findUseGlobalAct);
         menu->addSeparator();
@@ -292,6 +297,7 @@ void GolangEdit::editorCreated(LiteApi::IEditor *editor)
         menu->addSeparator();
         menu->addAction(m_findInfoAct);
         menu->addAction(m_jumpDeclAct);
+        menu->addAction(m_runTestAct);
         menu->addAction(m_findUseAct);
         menu->addAction(m_findUseGlobalAct);
         menu->addSeparator();
@@ -470,6 +476,26 @@ void GolangEdit::editorJumpToDecl()
     m_findDefProcess->startEx(cmd,QString("types -pos \"%1:%2\" -stdin -def .").
                              arg(info.fileName()).
                               arg(offset));
+}
+
+void GolangEdit::editorRunTest()
+{
+    bool moveLeft = false;
+    QString text = LiteApi::wordUnderCursor(m_plainTextEdit->textCursor(),&moveLeft);
+    if (text.isEmpty()) {
+        return;
+    }
+
+    m_liteApp->editorManager()->saveAllEditors();
+
+    LiteApi::ILiteBuild *build = LiteApi::getLiteBuild(m_liteApp);
+    if (build) {
+        LiteApi::TargetInfo info = build->getTargetInfo();
+
+        QStringList args;
+        args << "test" << "-run" << text;
+        build->execGoCommand(args,info.workDir,true);
+    }
 }
 
 void GolangEdit::editorFindUsages()
