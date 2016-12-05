@@ -180,7 +180,7 @@ void GolangFmt::syncfmtEditor(LiteApi::IEditor *editor, bool save, bool check, i
     cur.beginEditBlock();
     bool bUseState = true;
     if (m_diff) {
-        bUseState = false;
+        //bUseState = false;
         loadDiff(cur,codec->toUnicode(data));        
     } else {
         cur.select(QTextCursor::Document);
@@ -335,7 +335,7 @@ void GolangFmt::fmtFinish(bool error,int code,QString)
         cur.beginEditBlock();
         bool bUseState = true;
         if (m_diff) {
-            bUseState = false;
+            //bUseState = false;
             loadDiff(cur,codec->toUnicode(m_data));
         } else {
             cur.select(QTextCursor::Document);
